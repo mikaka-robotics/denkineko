@@ -14,22 +14,19 @@ import ctypes
 import simpleaudio as sa
 
 # 引数の解析を定義する
-parser = argparse.ArgumentParser(description='Denki Neko Controller')
+parser = argparse.ArgumentParser(
+    description='Denki Neko Controller', add_help=True)
 parser.add_argument(
-    'gradio_url', help='gradio demo url (like https://xxxxxxxx.gradio.live/)')
+    '--gradio_url', type=str, help='gradio demo url (like https://xxxxxxxx.gradio.live/)')
+args = parser.parse_args()
+gradio_url = args.gradio_url
 
 
 class Robot():
     _instance = None
     _lock = Lock()
 
-    def __init__(self, gradio_url=None):
-        self.gradio_url = gradio_url
-        if self.gradio_url is not None:
-            self.client = Client(self.gradio_url)
-        self.vad = webrtcvad.Vad(mode=3)
-
-    def __new__(cls):
+    def __new__(cls, gradio_url=None):
         # シングルトン
         with cls._lock:
             if cls._instance is None:
@@ -44,6 +41,10 @@ class Robot():
                 cls._instance.status = 'ready'
                 cls._instance.action = ''
                 cls._instance.cureent_th_id = 0
+                cls._instance.gradio_url = gradio_url
+                if cls._instance.gradio_url is not None:
+                    cls._instance.client = Client(self.gradio_url)
+                cls._instance.vad = webrtcvad.Vad(mode=3)
 
         return cls._instance
 
@@ -236,7 +237,7 @@ def manual_input_thread(robot):
 
 # 対話アプリケーション層
 if __name__ == '__main__':
-    robot = Robot()
+    robot = Robot(gradio_url)
     robot.init()
 
     manual_input_th = threading.Thread(name='manual_input_thread',
