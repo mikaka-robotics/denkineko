@@ -17,7 +17,7 @@ import simpleaudio as sa
 parser = argparse.ArgumentParser(
     description='Denki Neko Controller', add_help=True)
 parser.add_argument(
-    '--gradio_url', type=str, help='gradio demo url (like https://xxxxxxxx.gradio.live/)')
+    '--gradio_url', help='gradio demo url (like https://xxxxxxxx.gradio.live/)')
 args = parser.parse_args()
 gradio_url = args.gradio_url
 
@@ -43,7 +43,7 @@ class Robot():
                 cls._instance.cureent_th_id = 0
                 cls._instance.gradio_url = gradio_url
                 if cls._instance.gradio_url is not None:
-                    cls._instance.client = Client(self.gradio_url)
+                    cls._instance.client = Client(cls._instance.gradio_url)
                 cls._instance.vad = webrtcvad.Vad(mode=3)
 
         return cls._instance
