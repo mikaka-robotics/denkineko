@@ -68,6 +68,18 @@ class Robot():
                 except:
                     self.serial = None
                     return False
+        com_ports = list(serial.tools.list_ports.comports())
+        # windowsの場合
+        for port in com_ports:
+            if "USB Serial Device" in port.description or "Arduino" in port.description:
+                print("connect to " + port.device)
+                try:
+                    self.serial = serial.Serial(
+                        port.device, 9600, timeout=0.10)
+                    return True
+                except:
+                    self.serial = None
+                    return False
         return False
 
     def send_msg(self, msg):
@@ -196,7 +208,7 @@ class Robot():
         with open(output_filename, "wb") as f:
             f.write(decoded_audio)
 
-        return output_filename,
+        return output_filename
 
     def talk_thread(self, th_id):
         self.status = 'waiting'
