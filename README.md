@@ -49,9 +49,9 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 
 - 逆に、ロボット頭のネジがタッチされた場合は、`touch`という文字列がロボットから送られてきます。
 
-## Arduinoについて
-台座部分の基板に[Arduino Leonardo](www.amazon.co.jp/dp/B07C31L2B6)があります。
-[こちら](https://github.com/mikaka-robotics/denkineko/blob/main/arduino_sketch/denkineko.ino)に書き込んでいるスケッチを置いています。
+## ロボットのプログラムについて
+- 使っているマイコンは[Arduino Leonardo](www.amazon.co.jp/dp/B07C31L2B6)です。  
+  [こちら](https://github.com/mikaka-robotics/denkineko/blob/main/arduino_sketch/denkineko.ino)に書き込んでいるスケッチを置いています。
 
 ## 部品について
 仕様している主な部品は以下です。  
@@ -63,7 +63,16 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 | RGB LED    | 1   | https://akizukidenshi.com/catalog/g/gI-08411/ | 
 | 3.3V 3端子レギュレータ   | 1   | https://akizukidenshi.com/catalog/g/gI-14505/| 
 
+## 回路について
+台座部分に回路が入っています。
+
+<img width="260" alt="スクリーンショット 2023-05-16 6 54 43" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/14ba324b-967b-459e-8a21-4123f15bd5c5">. 
+
+Eagleのプリント基板データがcircuitフォルダに入っています (部品名などめちゃくちゃ). 
+
+<img width="374" alt="スクリーンショット 2023-04-16 18 42 36" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/cb541b8f-6228-4b3a-b40b-63f043ded4d6">
 
 ## 3Dプリントデータ
-[stl_files](https://github.com/mikaka-robotics/denkineko/tree/main/stl_files)フォルダに置いてあります
+[stl_files](https://github.com/mikaka-robotics/denkineko/tree/main/stl_files)フォルダに置いてあります。  
+外装部分については光造形方式の3Dプリンタ必須です。
 
