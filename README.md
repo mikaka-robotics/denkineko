@@ -31,7 +31,7 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 ```python
 import serial
 ser = serial.Serial("/dev/cu.usbmodem1101", 9600, timeout=0.10) #portは事前に調べておく
-ser.write("nod".encode())
+ser.write("nod,rainbow".encode())
 ```
 
 ロボットが受け付ける命令は以下です。
@@ -56,6 +56,7 @@ ser.write("nod".encode())
 | status    | 現在のロボットの状態を送信させる<br>[sleep/ready]    | 
 
 - 逆に、ロボット頭のネジがタッチされた場合は、`touch`という文字列がロボットから送られてきます。
+- 命令はカンマ区切りで同時に複数送れます (ex `nod,rainbow`)
 
 ## ロボットのプログラムについて
 - 使っているマイコンは[Arduino Leonardo](www.amazon.co.jp/dp/B07C31L2B6)です。  
