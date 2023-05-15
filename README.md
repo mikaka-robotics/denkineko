@@ -85,6 +85,7 @@ Eagleのプリント基板データがcircuitフォルダに入っています (
 <img width="200px" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/60d04603-b096-4dd1-992a-2f9013d65ff2">
 
 ## 3Dプリントデータ
-[stl_files](https://github.com/mikaka-robotics/denkineko/tree/main/stl_files)フォルダに置いてあります。  
-外装部分については光造形方式の3Dプリンタ必須です。
+こちらのGoogle Driveにstlファイルがあります。  
+https://drive.google.com/drive/folders/1kf-iSnG7YmpUBoflxnHEyxiMmFvtSxVS?usp=sharing. 
+外装部分については光造形方式の3Dプリンタ必須です。  
 
