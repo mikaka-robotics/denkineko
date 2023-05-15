@@ -47,6 +47,8 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 | bright数字    | LEDの明るさを調整する (0~255)<br>例: bright50    | 
 | status    | 現在のロボットの状態を送信させる<br>[sleep/ready]    | 
 
+- 逆に、ロボット頭のネジがタッチされた場合は、`touch`という文字列がロボットから送られてきます。
+
 ## Arduinoについて
 台座部分の基板に[Arduino Leonardo](www.amazon.co.jp/dp/B07C31L2B6)があります。
 [こちら](https://github.com/mikaka-robotics/denkineko/blob/main/arduino_sketch/denkineko.ino)に書き込んでいるスケッチを置いています。
