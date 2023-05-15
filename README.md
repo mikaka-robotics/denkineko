@@ -26,6 +26,14 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 ## ロボットとの通信方法の詳細
 ロボットとの通信は、USBシリアル通信によって行っています。通信速度は9600bpsです。
 
+- pythonなら以下のように命令を送れます. 
+
+```python
+import serial
+ser = serial.Serial("/dev/cu.usbmodem1101", 9600, timeout=0.10) #portは事前に調べておく
+ser.write("nod".encode())
+```
+
 ロボットが受け付ける命令は以下です。
 
 |  コマンド名 | 動作 | 
