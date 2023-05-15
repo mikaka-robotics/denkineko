@@ -12,6 +12,7 @@ from threading import Lock
 import serial
 import ctypes
 import simpleaudio as sa
+import serial.tools.list_ports
 
 # 引数の解析を定義する
 parser = argparse.ArgumentParser(
@@ -59,6 +60,7 @@ class Robot():
         if self.serial:
             return True
         for device in os.listdir('/dev'):
+            break
             if "tty.usb" in device or "ttyUSB" in device:  # raspiの場合は ttyUSB
                 print("connect to " + device)
                 try:
@@ -68,8 +70,10 @@ class Robot():
                 except:
                     self.serial = None
                     return False
-        com_ports = list(serial.tools.list_ports.comports())
+
         # windowsの場合
+        com_ports = list(serial.tools.list_ports.comports())
+
         for port in com_ports:
             if "USB Serial Device" in port.description or "Arduino" in port.description:
                 print("connect to " + port.device)

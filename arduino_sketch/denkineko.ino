@@ -19,8 +19,8 @@ float current_angle_neck = 90;
 float target_angle_body = 90;
 float current_angle_body = 90;
 
-Adafruit_TiCoServo myservo_neck; 
-Adafruit_TiCoServo myservo_body;  
+Adafruit_TiCoServo myservo_neck;
+Adafruit_TiCoServo myservo_body;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMLED, LEDPIN, NEO_RGB + NEO_KHZ800);
 uint16_t led_max_value = 70;  // 輝度の設定をする(暗い←0 ～ 255→明い)
@@ -30,6 +30,8 @@ uint16_t steps = 0;
 String robot_status = "sleep";
 String led_status = "";
 String action = "";
+
+bool is_autonomous=true;
 
 unsigned long now;
 unsigned long last_touched_time = 0; //チャタリング防止用
@@ -43,9 +45,9 @@ void setup() {
   Serial.begin(9600);
   delay(500);
   myservo_neck.attach(MOTER_PWN1, 500, 2400);
-  myservo_neck.write(70); 
+  myservo_neck.write(70);
   myservo_body.attach(MOTER_PWN2, 500, 2400);
-  myservo_body.write(90); 
+  myservo_body.write(90);
 
   //LEDの設定
   strip.begin();   //インスタンスの使用を開始、この時全てのLEDの状態を「0」とする。
@@ -57,7 +59,7 @@ void setup() {
   MsTimer2::start();
 
   last_interaction_time = millis();
-  
+
   delay(500);
   Serial.println("ready");
 }
@@ -78,7 +80,7 @@ uint32_t Wheel(byte WheelPos) {
 void controlLED() {
   steps=steps+1; //0~255をインクリメントするだけの変数
   if(steps>255){steps=0;}
-  
+
   if(robot_status == "sleep"){
     int k=steps;
     if(k>125){k=256-k;} //ゆっくり明滅
@@ -101,7 +103,7 @@ void controlLED() {
       strip.setPixelColor(0, strip.Color(led_max_value, 0, 0)); //RED
       strip.show();
   }else if(led_status == "off"){
-      strip.setPixelColor(0, strip.Color(0, 0, 0)); 
+      strip.setPixelColor(0, strip.Color(0, 0, 0));
       strip.show();
   }else if(strip.getPixelColor(0) != base_color){
       strip.setPixelColor(0, base_color);
@@ -114,7 +116,7 @@ void timerISR() {
   controlLED();
 
   if(robot_status == "sleep"){
-    target_angle_neck = 74+6*sin(now/600.); //sin関数で首を上下に動かす
+    target_angle_neck = 70+8*sin(now/600.); //sin関数で首を上下に動かす
   }
 
   if(action == "nod" & (now-action_start_time)<2*PI*200){
@@ -126,32 +128,37 @@ void timerISR() {
   if(action == "shake_body" & (now-action_start_time)<2*PI*200){
     target_angle_body = body_angle - 12*sin((now-action_start_time)/200); //sin関数で体を左右に振らす
   }
-  
-  
+  if(is_autonomous & action == "awake" & (now-action_start_time)<2*PI*200){
+    target_angle_neck = 55;
+    target_angle_body = body_angle - 20*sin((now-action_start_time)/200); //sin関数で体を左右に振らす
+  }
+
+
   int diff = (target_angle_neck - current_angle_neck); //操作量
   diff = constrain(diff, -1, 1); //一度の操作量を制限する
   current_angle_neck = current_angle_neck + diff; //操作量を加える
-  current_angle_neck = constrain(current_angle_neck, 65, 90);
-  myservo_neck.write((int)current_angle_neck); 
+  current_angle_neck = constrain(current_angle_neck, 55, 80);
+  myservo_neck.write((int)current_angle_neck);
 
   diff = (target_angle_body-current_angle_body);
   diff = constrain(diff, -1, 1);
   current_angle_body = current_angle_body + diff;
-  current_angle_body = constrain(current_angle_body, 0, 180);
-  myservo_body.write((int)current_angle_body); 
+  current_angle_body = constrain(current_angle_body, 10, 170);
+  myservo_body.write((int)current_angle_body);
 
   //静電容量によるタッチ判定
   int counter=0;
   digitalWrite(SENSOR_1_OUT, HIGH);
   while (digitalRead(SENSOR_1_IN)!=HIGH) counter++;
-  digitalWrite(SENSOR_1_OUT, LOW);  
+  digitalWrite(SENSOR_1_OUT, LOW);
 
   if (counter > threshold) { //タッチされた
     led_status = "touch";
     if (now - last_touched_time > 300){ //チャタリング防止
         Serial.println("touch");
         robot_status = "ready";
-        target_angle_neck=65;
+        action_start_time = millis();
+        action = "awake";
     }
     strip.show();
     last_touched_time = now;
@@ -159,15 +166,15 @@ void timerISR() {
   }
 
   if(now - last_touched_time > 300 & led_status=="touch"){
-    led_status = "";  
+    led_status = "";
   }
-  
+
   if(((now - last_interaction_time)/1000 > 2*60) & (now - last_touched_time > 10*1000)){ //最後にインタラクションしてから2分たったらsleepモード
     robot_status = "sleep";
+    is_autonomous = true;
     if((now - last_interaction_time)/1000 > 60*60){ //さらに、最後にインタラクションしてから60分たっていたら停止させる
       robot_status = "ready";
       led_status = "";
-      target_angle_neck = 75;
     }
   }
 }
@@ -178,7 +185,7 @@ void loop() {
     parseCommands(received_data);
     last_interaction_time = millis();
   }
-  
+
 }
 
 //カンマ区切りになっているデータをパースする
@@ -229,12 +236,15 @@ void processCommand(String command) {
   if (isNumeric(valueString)) {
     value = valueString.toInt();
   }
-  
+
+  is_autonomous=false; //自律モード解除
+
   if(key=="rainbow"){
     robot_status = "ready";
     led_status = "rainbow";
   }else if(key=="sleep"){
     robot_status = "sleep";
+    is_autonomous=true;
     led_status = "";
   }else if(key=="lipsync"){
     robot_status = "ready";
@@ -246,6 +256,7 @@ void processCommand(String command) {
     robot_status = "ready";
     target_angle_neck=70;
     target_angle_body=90;
+    body_angle = 90;
   }else if(key=="blue"){
     base_color = strip.Color(0, 0, led_max_value);
   }else if(key=="yellow"){
@@ -281,6 +292,8 @@ void processCommand(String command) {
     action = "shake_body";
   }else if(key=="status"){
     Serial.println(robot_status);
+  }else if(key=="autonomous"){
+    is_autonomous=true;
   }else{
     Serial.println("error");
   }
