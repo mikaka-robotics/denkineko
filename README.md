@@ -16,7 +16,7 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 
 上記を起動後、[デモ動画](https://www.youtube.com/watch?v=TgMYkIjSbwk)のように頭のネジに触ることで会話を始められます。  
 
-また、起動しているコマンドラインに直接コマンドを打ち込むことで、ロボットを動かしてみることも可能です。(コマンドの詳細は以下)
+また、gradio_urlを与えずに`python app.py`のみで起動し、コマンドラインに直接コマンドを打ち込んでロボットを動かしてみることも可能です。(コマンドの詳細は以下)
 
 # 開発者向け
 
