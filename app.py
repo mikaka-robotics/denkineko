@@ -59,27 +59,25 @@ class Robot():
         # シルアルポートに接続する
         if self.serial:
             return True
-        for device in os.listdir('/dev'):
-            break
-            if "tty.usb" in device or "ttyUSB" in device:  # raspiの場合は ttyUSB
-                print("connect to " + device)
-                try:
-                    self.serial = serial.Serial(
-                        "/dev/" + device, 9600, timeout=0.10)
-                    return True
-                except:
-                    self.serial = None
-                    return False
 
-        # windowsの場合
         com_ports = list(serial.tools.list_ports.comports())
-
         for port in com_ports:
             if "USB Serial Device" in port.description or "Arduino" in port.description:
                 print("connect to " + port.device)
                 try:
                     self.serial = serial.Serial(
                         port.device, 9600, timeout=0.10)
+                    return True
+                except:
+                    self.serial = None
+                    return False
+
+        for device in os.listdir('/dev'):
+            if "tty.usb" in device or "ttyUSB" in device:  # raspiの場合は ttyUSB
+                print("connect to " + device)
+                try:
+                    self.serial = serial.Serial(
+                        "/dev/" + device, 9600, timeout=0.10)
                     return True
                 except:
                     self.serial = None
@@ -230,7 +228,7 @@ class Robot():
             output_sound_filename = self.gradio_api_call(input_sound_filename)
         else:
             # 対話システムAPIのURLが指定されていません
-            output_sound_filename = "syokika.wav"
+            output_sound_filename = "error.wav"
 
         self.status = 'speach'
         wave_obj = sa.WaveObject.from_wave_file(output_sound_filename)
