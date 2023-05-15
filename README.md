@@ -66,11 +66,14 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 ## 回路について
 台座部分に回路が入っています。
 
-<img width="260" alt="スクリーンショット 2023-05-16 6 54 43" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/14ba324b-967b-459e-8a21-4123f15bd5c5">. 
+<img width="240" alt="スクリーンショット 2023-05-16 6 54 43" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/14ba324b-967b-459e-8a21-4123f15bd5c5">
 
 Eagleのプリント基板データがcircuitフォルダに入っています (部品名などめちゃくちゃ). 
 
-<img width="374" alt="スクリーンショット 2023-04-16 18 42 36" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/cb541b8f-6228-4b3a-b40b-63f043ded4d6">
+<img width="374" alt="スクリーンショット 2023-04-16 18 42 36" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/cb541b8f-6228-4b3a-b40b-63f043ded4d6">. 
+
+<img width="200px" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/b4693a51-b195-41b5-95fc-88184c4ddb1d">
+<img width="200px" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/60d04603-b096-4dd1-992a-2f9013d65ff2">
 
 ## 3Dプリントデータ
 [stl_files](https://github.com/mikaka-robotics/denkineko/tree/main/stl_files)フォルダに置いてあります。  
