@@ -54,7 +54,7 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
   [こちら](https://github.com/mikaka-robotics/denkineko/blob/main/arduino_sketch/denkineko.ino)に書き込んでいるスケッチを置いています。
 
 ## 部品について
-仕様している主な部品は以下です。  
+使用している主な部品は以下です。  
 
 |  部品 | 数 | 型番など | 
 | -------- | -------- | -------- | 
