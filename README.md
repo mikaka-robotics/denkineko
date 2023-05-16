@@ -39,7 +39,7 @@ for port in com_ports:
         print("connect to " + port.device)     
         ser = serial.Serial(port.device, 9600, timeout=0.10)
         break
-        
+
 ser.write("nod,rainbow".encode())
 ```
 
