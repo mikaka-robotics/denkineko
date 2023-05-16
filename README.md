@@ -14,9 +14,9 @@ pip install -r  requirements.txt
 python app.py --gradio_url https://XXXXXXXX.gradio.live/
 ```
 
-上記を起動後、[デモ動画](https://www.youtube.com/watch?v=TgMYkIjSbwk)のように頭のネジに触ることで会話を始められます。  
+起動後、[デモ動画](https://www.youtube.com/watch?v=TgMYkIjSbwk)のように頭のネジに触ることで会話を始められます。  
 
-また、gradio_urlを与えずに`python app.py`のみで起動し、コマンドラインに直接コマンドを打ち込んでロボットを動かしてみることも可能です。(コマンドの詳細は以下)
+また、gradio_urlを与えずに`python app.py`のみで起動し、コマンドラインに直接コマンドを打ち込んでロボットを動かしてみることもできます。(送れるコマンドの詳細は以下)
 
 # 開発者向け
 
@@ -31,7 +31,7 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 ```python
 import serial
 ser = serial.Serial("/dev/cu.usbmodem1101", 9600, timeout=0.10) #portは事前に調べておく
-ser.write("nod".encode())
+ser.write("nod,rainbow".encode())
 ```
 
 ロボットが受け付ける命令は以下です。
@@ -56,6 +56,7 @@ ser.write("nod".encode())
 | status    | 現在のロボットの状態を送信させる<br>[sleep/ready]    | 
 
 - 逆に、ロボット頭のネジがタッチされた場合は、`touch`という文字列がロボットから送られてきます。
+- 命令はカンマ区切りで同時に複数送れます (ex `nod,rainbow`)
 
 ## ロボットのプログラムについて
 - 使っているマイコンは[Arduino Leonardo](www.amazon.co.jp/dp/B07C31L2B6)です。  
@@ -84,6 +85,7 @@ Eagleのプリント基板データがcircuitフォルダに入っています (
 <img width="200px" src="https://github.com/mikaka-robotics/denkineko/assets/36753812/60d04603-b096-4dd1-992a-2f9013d65ff2">
 
 ## 3Dプリントデータ
-[stl_files](https://github.com/mikaka-robotics/denkineko/tree/main/stl_files)フォルダに置いてあります。  
-外装部分については光造形方式の3Dプリンタ必須です。
+こちらのGoogle Driveにstlファイルがあります。  
+https://drive.google.com/drive/folders/1kf-iSnG7YmpUBoflxnHEyxiMmFvtSxVS?usp=sharing. 
+外装部分については光造形方式の3Dプリンタ必須です。  
 
