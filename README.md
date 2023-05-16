@@ -11,6 +11,7 @@ git clone https://github.com/mikaka-robotics/denkineko.git
 cd denkineko
 (Macの場合) brew install portaudio
 pip install -r  requirements.txt
+
 python app.py --gradio_url https://XXXXXXXX.gradio.live/
 ```
 
