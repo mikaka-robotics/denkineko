@@ -30,7 +30,16 @@ python app.py --gradio_url https://XXXXXXXX.gradio.live/
 
 ```python
 import serial
-ser = serial.Serial("/dev/cu.usbmodem1101", 9600, timeout=0.10) #portは事前に調べておく
+import serial.tools.list_ports
+
+com_ports = list(serial.tools.list_ports.comports())
+#Arduinoが繋がっているportを調べて接続する
+for port in com_ports:
+    if "Arduino" in port.description:
+        print("connect to " + port.device)     
+        ser = serial.Serial(port.device, 9600, timeout=0.10)
+        break
+        
 ser.write("nod,rainbow".encode())
 ```
 
