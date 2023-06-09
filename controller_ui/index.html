@@ -269,8 +269,8 @@
         target.innerHTML = newValue;
         model.rotation.y = -Math.PI/2. + (Number(newValue)-90)/180*Math.PI;
         window.parent.postMessage({
-         action: 'body',
-         message: newValue
+         action: 'command',
+         message: 'body='+newValue
         }, '*', );
       }
 
@@ -284,8 +284,8 @@
         target.innerHTML = newValue;
         bones[1].rotation.z =  20/180*Math.PI + (Number(newValue)-90)/180*Math.PI;
          window.parent.postMessage({
-          action: 'neck',
-          message: newValue
+          action: 'command',
+          message: 'neck='+newValue
           }, '*', );
       }
 
@@ -301,7 +301,7 @@
         set_LED(`rgb(${red},${green},${blue})`);
         window.parent.postMessage({
          action: 'led',
-         message: code
+         message: 'led='+code
         }, '*', );
       }
 
