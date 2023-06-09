@@ -408,7 +408,7 @@
       elem2.addEventListener("input", colorValue);
 
       function nod() {
-        indow.parent.postMessage({
+        window.parent.postMessage({
          action: 'command',
          message: 'nod'
         }, '*', );
