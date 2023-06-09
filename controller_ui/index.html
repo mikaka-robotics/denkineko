@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Dosis:700);
+    body {
+      font-family: "Dosis", Helvetica, Arial, sans-serif;
+      background: #ecf0f1;
+      color: #34495e;
+      padding-top: 0px;
+      margin-top: 0px;
+      text-shadow: white 1px 1px 1px;
+    }
+    .value {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.5em;
+      width: 100px;
+      height: 10px;
+      margin: 5px auto 30px auto;
+      letter-spacing: -.07em;
+      text-shadow: white 2px 2px 2px;
+    }
+    input[type="range"] {
+      display: block;
+      -webkit-appearance: none;
+      background-color: #bdc3c7;
+      width: 150px;
+      height: 5px;
+      border-radius: 5px;
+      margin: 0 auto;
+      outline: 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-color: #e74c3c;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 2px solid white;
+      cursor: pointer;
+      transition: .3s ease-in-out;
+    }​
+      input[type="range"]::-webkit-slider-thumb:hover {
+        background-color: white;
+        border: 2px solid #e74c3c;
+      }
+      input[type="range"]::-webkit-slider-thumb:active {
+        transform: scale(1.4);
+      }
+      input[type="range"].vertical {
+        width: 60px;
+        height: 5px;
+        transform: rotate(-0.25turn);
+        margin: 35px 0;
+        display: inline-block;
+      }
+      .value2 {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.5em;
+        width: 10px;
+        height: 0px;
+        margin: 0 0 0 0;
+        text-shadow: white 2px 2px 2px;
+        letter-spacing: -.07em;
+        display: inline-block;
+      }
+  </style>
+  <body>
+    <!-- Three.js本体とGLTFローダー -->
+    <div id='canvas' style='display: flex;justify-content: center;'></div>
+    <div style='display: flex; justify-content: center;'>
+      <div style='width:80px; height:90px;'>
+        <div class="value2">70</div>
+        <input name="neck-input" type="range" class="vertical" min="60" max="90" step="1" value="70">
+      </div>
+      <div>
+        <div class="value">90</div>
+        <input name="body-input" type="range" min="0" max="180" step="1" value="90">
+      </div>
+      <div style='margin:10px 20px 5px 20px;text-align:center;'>
+        <div style='margin-bottom:5px;'>LED</div>
+        <input type="color" name="led-color" value="#ffffff">
+      </div>
+    </div>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three" : "./js/three.module.js",
+        "three/loaders/": "./jsm/loaders/"
+      }
+    }
+    </script>
+
+
+    <script  type="module">
+      import * as THREE from 'three';
+      import { GLTFLoader} from 'three/loaders/GLTFLoader.js';
+      let width = window.innerWidth/1;
+      let height = window.innerHeight/1.25;
+
+      let mouseX = 0, mouseY = 0;
+      let windowHalfX = width / 2;
+      let windowHalfY = height / 2;
+
+      // シーンを追加
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xccddee);
+
+      // ライトを追加
+      // 環境光
+      const ambientLight = new THREE.AmbientLight(0xcccccc, 10.5);
+      scene.add(ambientLight);
+      // 太陽光
+      const light = new THREE.DirectionalLight(0xFFFFFF, 4.5);
+      //scene.add(light);
+      // ポイントライト
+      const pointLight = new THREE.PointLight(0xffffff, 0.8);
+      //scene.add(pointLight);
+
+      // 1km四方の地面を追加
+      const geometry = new THREE.PlaneGeometry( 1000, 1000 );
+      const material = new THREE.MeshBasicMaterial(
+        {color: 0x666666, side: THREE.DoubleSide} );
+      const plane = new THREE.Mesh( geometry, material );
+      plane.rotation.x = 90 * Math.PI / 180;
+      //scene.add( plane );
+
+      // カメラの追加
+      const camera = new THREE.PerspectiveCamera(
+        45, width / height, 1, 2000);
+      camera.position.z = 500;
+
+      // レンダラーを追加
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(width, height);
+
+      //renderer.xr.enabled = true;
+      //document.getElementById('main_canvas').appendChild( VRButton.createButton(renderer));
+      renderer.useLegacyLights = false;
+      //renderer.outputColorSpace = THREE.sRGBEncoding;
+      //renderer.toneMapping = THREE.CineonToneMapping; //THREE.ReinhardToneMapping;
+
+      THREE.Cache.enabled = true;
+
+      var elm = document.getElementById('canvas');
+
+      elm.appendChild(renderer.domElement);
+
+      var kihou_list = [];
+
+      for (let i = 0; i < 10; i++){
+          var r=Math.random()*5+0.1;
+          var geometry2 = new THREE.SphereGeometry( r,30,30 );
+          var  material2 = new THREE.MeshLambertMaterial({color: 'white', transparent: true, opacity: 0.5,});
+          var sphere = new THREE.Mesh( geometry2, material2 );
+          var x =  (Math.random()-0.5)*600;
+          var y = -100-Math.random()*300;
+          var z = (Math.random()-0.5)*300;
+          sphere.position.set(x,y,z);
+          scene.add(sphere);
+          kihou_list.push(sphere);
+      }
+
+      function kihou_update(){
+          for (let kihou of kihou_list){
+              if(Math.random()>0.005){
+               kihou.position.x = kihou.position.x+(Math.random()-0.5)*2;
+               kihou.position.y = kihou.position.y+2;
+               kihou.position.z = kihou.position.z+(Math.random()-0.5)*2;
+           }else{
+              var x =  (Math.random()-0.5)*600;
+              var y = -100-Math.random()*300;
+              var z = (Math.random()-0.5)*300;
+              kihou.position.set(x,y,z);
+           }
+          }
+      }
+
+      // 描画開始
+      animate();
+
+      // GLTFファイルを読み込む
+      const GLTFFILE = 'gltf/ageha3_flat.glb';
+      const gltfLoader = new GLTFLoader()
+      var model;
+      var bones=[];
+      gltfLoader.load(GLTFFILE, (gltf) => {
+        model = gltf.scene;
+        model.scale.set(4.0, 4.0, 4.0);
+        model.position.set(0, 50, 0);
+        model.rotation.y = -Math.PI/2.;
+
+        model.traverse((object) => { //モデルの構成要素をforEach的に走査
+
+                            if(object.isMesh) { //その構成要素がメッシュだったら
+                              object.material.blending = THREE.CustomBlending ;
+                              if(object.name=='Sphere002'){
+                                 object.material.color=new THREE.Color( 0x000000);
+                                 object.material.emissive=new THREE.Color("rgb(255, 255, 255)");
+                                 object.material.emissiveIntensity = 1;
+                              }
+                            }
+                            if (object.isBone){
+                              bones.push(object);
+                            }
+                        });
+        scene.add(model);
+      }, undefined, (error) => {
+        console.error(error);
+      });
+
+      function set_LED(color){
+        if(model){
+          model.traverse((object) => { //モデルの構成要素をforEach的に走査
+                if(object.isMesh) { //その構成要素がメッシュだったら
+                  if(object.name=='Sphere002'){
+                     object.material.emissive = new THREE.Color(color);
+                  }
+                }
+            });
+        }
+      }
+
+      // マウスイベントなどを設定
+      document.addEventListener('mousemove', onDocumentMouseMove);
+      window.addEventListener('resize', onWindowResize);
+
+      // 描画処理
+      function animate() {
+        requestAnimationFrame(animate);
+        kihou_update();
+        render();
+      }
+
+      function render() {
+        camera.position.x += (mouseX - camera.position.x) * .1;
+        camera.position.y += (-mouseY - camera.position.y) * .1;
+        camera.lookAt(new THREE.Vector3(0,20, 0));
+        renderer.render(scene, camera);
+      }
+
+      // リサイズ時のカメラ調整
+      function onWindowResize() {
+        width = window.innerWidth;
+        height = window.innerHeight/1.25;
+        windowHalfX = width / 2;
+        windowHalfY = height / 2;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      }
+
+      // マウスが動いたときの座標記録
+      function onDocumentMouseMove(event) {
+        mouseX = (event.clientX - windowHalfX) /2;
+        mouseY = (event.clientY - windowHalfY) /2*1.5;
+        mouseY = Math.min(mouseY, 50);
+      }
+
+      var elem_body = document.querySelector('input[name="body-input"]');
+
+      var rangeValue_body = function(){
+        var newValue = elem_body.value;
+        var target = document.querySelector('.value');
+        target.innerHTML = newValue;
+        model.rotation.y = -Math.PI/2. + (Number(newValue)-90)/180*Math.PI;
+        window.parent.postMessage({
+         action: 'body',
+         message: newValue
+        }, '*', );
+      }
+
+      elem_body.addEventListener("input", rangeValue_body);
+
+      var elem_neck = document.querySelector('input[name="neck-input"]');
+
+      var rangeValue_neck = function(){
+        var newValue = elem_neck.value;
+        var target = document.querySelector('.value2');
+        target.innerHTML = newValue;
+        bones[1].rotation.z =  20/180*Math.PI + (Number(newValue)-90)/180*Math.PI;
+         window.parent.postMessage({
+          action: 'neck',
+          message: newValue
+          }, '*', );
+      }
+
+      elem_neck.addEventListener("input", rangeValue_neck );
+
+      var elem2 = document.querySelector('input[name="led-color"]');
+
+      var colorValue = function(){
+        var code = elem2.value;
+        var red   = parseInt(code.substring(1,3), 16);
+        var green = parseInt(code.substring(3,5), 16);
+        var blue  = parseInt(code.substring(5,7), 16);
+        set_LED(`rgb(${red},${green},${blue})`);
+        window.parent.postMessage({
+         action: 'led',
+         message: code
+        }, '*', );
+      }
+
+      elem2.addEventListener("input", colorValue);
+    </script>
+  </body>
+</html>
