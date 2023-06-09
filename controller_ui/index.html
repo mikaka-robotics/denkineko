@@ -94,7 +94,7 @@
   <body>
     <!-- Three.js本体とGLTFローダー -->
     <div id='canvas' style='display: flex;justify-content: center;'>
-        <input type="button" value="nod" onclick="nod()">
+        <input type="button" value="nod" id='nod'>
     </div>
     <div style='display: flex; justify-content: center;'>
       <div style='width:80px; height:90px;'>
@@ -413,6 +413,9 @@
          message: 'nod'
         }, '*', );
       };
+
+      let nod_button = document.getElementById('xxx');
+      nod_button.onclick = nod;
 
       window.addEventListener('message', function (e) {
         if(e.data.action == 'message') {
