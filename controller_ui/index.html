@@ -66,10 +66,38 @@
         letter-spacing: -.07em;
         display: inline-block;
       }
+      input[type="button"] {
+        position:absolute;
+        right:30px;
+        top:50px;
+      	cursor:pointer;/*カーソルをポインターに*/
+      	-webkit-appearance: none;/*iOS Safariのデフォルトスタイルをクリア*/
+      	border-style:none;/*デフォルトのボーダークリア*/
+      	font-size:130%;
+      	font-weight:bold;
+      	color: #fff;
+      	margin:.5em .5em .5em 0;
+      	padding:.3em 0 .4em;
+      	width:150px;
+      	background:#1e90ff;/*背景色を指定*/
+      	-webkit-border-radius: 5px;/*iOS Safari用のボックスの角丸の指定*/
+      	border-radius: 5px;/*ボックスの角丸の指定*/
+      	-webkit-box-shadow: 0 2px 2px 0 #666;/*iOS Safari用ボックスシャドウ*/
+      	box-shadow: 0 2px 2px 0 #666;/*ボックスシャドウ*/
+      	text-shadow: 1px 1px 2px #000; /*テキストシャドウ*/
+      }
+      /*↓マウスオーバー時の変化。ここでは背景色だけ変更*/
+      input[type="button"]:hover {
+      	background-color: #0055ff;
+      }
+
+
   </style>
   <body>
     <!-- Three.js本体とGLTFローダー -->
-    <div id='canvas' style='display: flex;justify-content: center;'></div>
+    <div id='canvas' style='display: flex;justify-content: center;'>
+        <input type="button" value="nod" onclick="nod()">
+    </div>
     <div style='display: flex; justify-content: center;'>
       <div style='width:80px; height:90px;'>
         <div class="value2">70</div>
@@ -260,7 +288,7 @@
                             if(object.isMesh) { //その構成要素がメッシュだったら
                               object.material.blending = THREE.CustomBlending ;
                               if(object.name=='Sphere002'){
-                                 object.material.color=new THREE.Color( 0x000000);
+                                 object.material.color=new THREE.Color( 0x666666);
                                  object.material.emissive=new THREE.Color("rgb(255, 255, 255)");
                                  object.material.emissiveIntensity = 8;
                               }
@@ -380,6 +408,13 @@
       }
 
       elem2.addEventListener("input", colorValue);
+
+      function nod() {
+        indow.parent.postMessage({
+         action: 'command',
+         message: 'nod'
+        }, '*', );
+      };
 
       window.addEventListener('message', function (e) {
         if(e.data.action == 'message') {
