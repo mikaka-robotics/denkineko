@@ -237,11 +237,11 @@
         for(let k=0; k<zzz.children.length;k++){
           var textMesh_zzz = zzz.children[k];
           var offset = ((frame+k*80)%240)/240;
-          var scale = 0.5+Math.sin(offset*Math.PI)/2.;
+          var scale = 0.5+Math.sin(offset*Math.PI)/2.5;
           textMesh_zzz.material[0].opacity = Math.sin(offset*Math.PI)/1.2;
           textMesh_zzz.material[1].opacity = Math.sin(offset*Math.PI)/1.2;
           textMesh_zzz.scale.set(scale, scale, scale);
-          textMesh_zzz.position.set(50+offset*70 + Math.sin(offset*Math.PI*3)*5,120+offset*70,10);
+          textMesh_zzz.position.set(50+offset*70 + Math.sin(offset*Math.PI*3)*7,120+offset*70,10);
         }
       };
 
@@ -286,7 +286,7 @@
                             if(object.isMesh) { //その構成要素がメッシュだったら
                               object.material.blending = THREE.CustomBlending ;
                               if(object.name=='Sphere002'){
-                                 object.material.color=new THREE.Color( 0x666666);
+                                 object.material.color=new THREE.Color( 0x333333);
                                  object.material.emissive=new THREE.Color("rgb(255, 255, 255)");
                                  object.material.emissiveIntensity = 8;
                               }
