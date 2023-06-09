@@ -138,7 +138,7 @@
       const zzz = new THREE.Group();
 
       font_loader.load('fonts/Dosis_Bold.json', function(font){
-       var textGeometry_exclamation = new TextGeometry("!", { font: font, size: 40, height: 4, curveSegments: 2,
+       var textGeometry_exclamation = new TextGeometry("!", { font: font, size: 45, height: 4, curveSegments: 2,
          bevelEnabled: true, bevelThickness: 0,bevelSize: 0.5, bevelOffset: 0.5, bevelSegments: 10,});
        textGeometry_exclamation.center();
        var materials_exclamation = [
@@ -147,7 +147,7 @@
        ];
        textMesh_exclamation = new THREE.Mesh(textGeometry_exclamation, materials_exclamation);
        //textMesh_exclamation.scale.set(1.5, 1.5, 1.5);
-       textMesh_exclamation.position.set(0,160,0);
+       textMesh_exclamation.position.set(0,160,20);
        textMesh_exclamation.visible = false;
        scene.add(textMesh_exclamation);
 
