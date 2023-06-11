@@ -135,6 +135,7 @@
       let windowHalfY = height / 2;
 
       var frame = 0;
+      var robot = new THREE.Group();
 
       // シーンを追加
       const scene = new THREE.Scene();
@@ -164,8 +165,8 @@
       const zzz = new THREE.Group();
 
       font_loader.load('fonts/Dosis_Bold.json', function(font){
-       var textGeometry_exclamation = new TextGeometry("!", { font: font, size: 45, height: 4, curveSegments: 2,
-         bevelEnabled: true, bevelThickness: 0,bevelSize: 0.5, bevelOffset: 0.5, bevelSegments: 10,});
+       var textGeometry_exclamation = new TextGeometry("!", { font: font, size: 45, height: 6, curveSegments: 2,
+         bevelEnabled: true, bevelThickness: 0.1,bevelSize: 0.5, bevelOffset: 0.5, bevelSegments: 10,});
        textGeometry_exclamation.center();
        var materials_exclamation = [
          new THREE.MeshBasicMaterial( { color: 0xff0000, overdraw: 0.5 } ),
@@ -174,11 +175,11 @@
        textMesh_exclamation = new THREE.Mesh(textGeometry_exclamation, materials_exclamation);
        //textMesh_exclamation.scale.set(1.5, 1.5, 1.5);
        textMesh_exclamation.position.set(0,160,20);
-       textMesh_exclamation.visible = false;
-       scene.add(textMesh_exclamation);
+       //textMesh_exclamation.visible = false;
+       robot.add(textMesh_exclamation);
 
-       var textGeometry_zzz = new TextGeometry("Z", { font: font, size: 30, height: 4, curveSegments: 2,
-         bevelEnabled: true, bevelThickness: 0,bevelSize: 0.5, bevelOffset: 0.5, bevelSegments: 10,});
+       var textGeometry_zzz = new TextGeometry("Z", { font: font, size: 30, height: 6, curveSegments: 2,
+         bevelEnabled: true, bevelThickness: 0.1, bevelSize: 0.5, bevelOffset: 0.5, bevelSegments: 10,});
        textGeometry_zzz.center();
 
        for(let i=0; i<3;i++){
@@ -189,9 +190,8 @@
          var textMesh_zzz = new THREE.Mesh(textGeometry_zzz, materials_zzz);
          zzz.add(textMesh_zzz);
        }
-       zzz.visible = false;
-       console.log(zzz);
-       scene.add(zzz);
+       //zzz.visible = false;
+       robot.add(zzz);
      });
 
       // カメラの追加
@@ -295,7 +295,8 @@
                               bones.push(object);
                             }
                         });
-        scene.add(model);
+        robot.add(model);
+        scene.add(robot);
 
         setInterval(request_robot_status, 100);
       }, undefined, (error) => {
@@ -362,7 +363,7 @@
         var target = document.querySelector('.value');
         target.innerHTML = newValue;
         if(!is_connect_robot){
-          model.rotation.y = -Math.PI/2. + (Number(newValue)-90)/180*Math.PI;
+          robot.rotation.y = (Number(newValue)-90)/180*Math.PI;
         }
         window.parent.postMessage({
          action: 'command',
@@ -433,7 +434,7 @@
             switch (key) {
               case 'body':
                 body = parseInt(value);
-                model.rotation.y = -Math.PI/2. + (body-90)/180*Math.PI;
+                robot.rotation.y = (body-90)/180*Math.PI;
                 break;
               case 'neck':
                 neck = parseInt(value);
