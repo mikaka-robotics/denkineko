@@ -96,7 +96,7 @@
         <input style='top:20px;' type="button" value="home" id='home'>
         <input type="button" value="nod" id='nod'>
         <input style='top:100px;' type="button" value="shake_body" id='shake_body'>
-        <div style='position:absolute;bottom:15px;'>
+        <div style='position:absolute;bottom:5px;'>
           <div style='display: flex; justify-content: center;'>
             <div style='width:80px; height:90px;'>
               <div class="value2">70</div>
@@ -178,7 +178,7 @@
        ];
        textMesh_exclamation = new THREE.Mesh(textGeometry_exclamation, materials_exclamation);
        //textMesh_exclamation.scale.set(1.5, 1.5, 1.5);
-       textMesh_exclamation.position.set(0,170,20);
+       textMesh_exclamation.position.set(0,180,20);
        textMesh_exclamation.visible = false;
        robot.add(textMesh_exclamation);
 
@@ -412,15 +412,24 @@
 
       elem2.addEventListener("input", colorValue);
 
-      function nod() {
+      function action(e) {
+        console.log(e.value);
         window.parent.postMessage({
-         action: 'command',
-         message: 'nod'
+         action: 'command',message: e.value
         }, '*', );
       };
-
       let nod_button = document.getElementById('nod');
-      nod_button.onclick = nod;
+      nod_button.addEventListener('click', function() {
+        action(this);
+      });
+      let shake_button = document.getElementById('shake_body');
+      shake_button.addEventListener('click', function() {
+        action(this);
+      });
+      let home_button = document.getElementById('home');
+      home_button.addEventListener('click', function() {
+        action(this);
+      });
 
       window.addEventListener('message', function (e) {
         if(e.data.action == 'message') {
