@@ -77,8 +77,7 @@
       	font-weight:bold;
       	color: #fff;
       	margin:.5em .5em .5em 0;
-      	padding:.3em 0 .4em;
-      	width:60px;
+      	padding:.3em 5px .4em;
       	background:#1e90ff;/*背景色を指定*/
       	-webkit-border-radius: 5px;/*iOS Safari用のボックスの角丸の指定*/
       	border-radius: 5px;/*ボックスの角丸の指定*/
@@ -94,7 +93,9 @@
   <body>
     <!-- Three.js本体とGLTFローダー -->
     <div id='canvas' style='display: flex;justify-content: center;'>
+        <input style='top:20px;' type="button" value="home" id='home'>
         <input type="button" value="nod" id='nod'>
+        <input style='top:100px;' type="button" value="shake_body" id='shake_body'>
     </div>
     <div style='display: flex; justify-content: center;'>
       <div style='width:80px; height:90px;'>
@@ -175,7 +176,7 @@
        textMesh_exclamation = new THREE.Mesh(textGeometry_exclamation, materials_exclamation);
        //textMesh_exclamation.scale.set(1.5, 1.5, 1.5);
        textMesh_exclamation.position.set(0,160,20);
-       //textMesh_exclamation.visible = false;
+       textMesh_exclamation.visible = false;
        robot.add(textMesh_exclamation);
 
        var textGeometry_zzz = new TextGeometry("Z", { font: font, size: 30, height: 6, curveSegments: 2,
@@ -190,7 +191,7 @@
          var textMesh_zzz = new THREE.Mesh(textGeometry_zzz, materials_zzz);
          zzz.add(textMesh_zzz);
        }
-       //zzz.visible = false;
+       zzz.visible = false;
        robot.add(zzz);
      });
 
