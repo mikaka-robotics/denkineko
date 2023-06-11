@@ -96,21 +96,24 @@
         <input style='top:20px;' type="button" value="home" id='home'>
         <input type="button" value="nod" id='nod'>
         <input style='top:100px;' type="button" value="shake_body" id='shake_body'>
+        <div style='position:absolute;bottom:15px;'>
+          <div style='display: flex; justify-content: center;'>
+            <div style='width:80px; height:90px;'>
+              <div class="value2">70</div>
+              <input name="neck-input" type="range" class="vertical" min="60" max="90" step="1" value="70">
+            </div>
+            <div>
+              <div class="value">90</div>
+              <input name="body-input" type="range" min="0" max="180" step="1" value="90">
+            </div>
+            <div style='margin:10px 20px 5px 20px;text-align:center;'>
+              <div style='margin-bottom:5px;'>LED</div>
+              <input type="color" name="led-color" value="#ffffff">
+            </div>
+          </div>
+        </div>
     </div>
-    <div style='display: flex; justify-content: center;'>
-      <div style='width:80px; height:90px;'>
-        <div class="value2">70</div>
-        <input name="neck-input" type="range" class="vertical" min="60" max="90" step="1" value="70">
-      </div>
-      <div>
-        <div class="value">90</div>
-        <input name="body-input" type="range" min="0" max="180" step="1" value="90">
-      </div>
-      <div style='margin:10px 20px 5px 20px;text-align:center;'>
-        <div style='margin-bottom:5px;'>LED</div>
-        <input type="color" name="led-color" value="#ffffff">
-      </div>
-    </div>
+
 
     <script type="importmap">
     {
@@ -128,8 +131,8 @@
       import { GLTFLoader} from 'three/loaders/GLTFLoader.js';
       import { FontLoader } from "three/loaders/FontLoader.js";
       import { TextGeometry } from "three/geometries/TextGeometry.js";
-      let width = window.innerWidth/1;
-      let height = window.innerHeight/1.25;
+      let width = window.innerWidth;
+      let height = window.innerHeight;
 
       let mouseX = 0, mouseY = 0;
       let windowHalfX = width / 2;
@@ -166,8 +169,8 @@
       const zzz = new THREE.Group();
 
       font_loader.load('fonts/Dosis_Bold.json', function(font){
-       var textGeometry_exclamation = new TextGeometry("!", { font: font, size: 45, height: 6, curveSegments: 2,
-         bevelEnabled: true, bevelThickness: 0.1,bevelSize: 0.5, bevelOffset: 0.5, bevelSegments: 10,});
+       var textGeometry_exclamation = new TextGeometry("!", { font: font, size: 45, height: 6, curveSegments: 5,
+         bevelEnabled: true, bevelThickness: 0.1,bevelSize: 0.1, bevelOffset: 0.1, bevelSegments: 10,});
        textGeometry_exclamation.center();
        var materials_exclamation = [
          new THREE.MeshBasicMaterial( { color: 0xff0000, overdraw: 0.5 } ),
@@ -175,7 +178,7 @@
        ];
        textMesh_exclamation = new THREE.Mesh(textGeometry_exclamation, materials_exclamation);
        //textMesh_exclamation.scale.set(1.5, 1.5, 1.5);
-       textMesh_exclamation.position.set(0,160,20);
+       textMesh_exclamation.position.set(0,170,20);
        textMesh_exclamation.visible = false;
        robot.add(textMesh_exclamation);
 
@@ -279,7 +282,7 @@
       gltfLoader.load(GLTFFILE, (gltf) => {
         model = gltf.scene;
         model.scale.set(4.0, 4.0, 4.0);
-        model.position.set(0, 50, 0);
+        model.position.set(0, 70, 0);
         model.rotation.y = -Math.PI/2.;
 
         model.traverse((object) => { //モデルの構成要素をforEach的に走査
