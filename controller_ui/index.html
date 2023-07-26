@@ -99,8 +99,8 @@
         <div style='position:absolute;bottom:5px;'>
           <div style='display: flex; justify-content: center;'>
             <div style='width:80px; height:90px;'>
-              <div class="value2">70</div>
-              <input name="neck-input" type="range" class="vertical" min="60" max="90" step="1" value="70">
+              <div class="value2">100</div>
+              <input name="neck-input" type="range" class="vertical" min="70" max="120" step="1" value="100">
             </div>
             <div>
               <div class="value">90</div>
@@ -386,7 +386,7 @@
         var target = document.querySelector('.value2');
         target.innerHTML = newValue;
         if(!is_connect_robot){
-          bones[1].rotation.z = -20/180*Math.PI - (Number(newValue)-90)/180*Math.PI;
+          bones[1].rotation.z = 20/180*Math.PI - (Number(newValue)-90)/180*Math.PI;
         }
          window.parent.postMessage({
           action: 'command',
@@ -453,7 +453,7 @@
                 break;
               case 'neck':
                 neck = parseInt(value);
-                bones[1].rotation.z = -20/180*Math.PI - (neck-90)/180*Math.PI;
+                bones[1].rotation.z = 20/180*Math.PI - (neck-90)/180*Math.PI;
                 break;
               case 'led':
                 led = value;
