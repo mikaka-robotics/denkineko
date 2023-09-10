@@ -96,6 +96,7 @@
         <input style='top:20px;' type="button" value="home" id='home'>
         <input type="button" value="nod" id='nod'>
         <input style='top:100px;' type="button" value="shake_body" id='shake_body'>
+        <input style='top:140px;' type="button" value="sleep" id='sleep'>
         <div style='position:absolute;bottom:5px;'>
           <div style='display: flex; justify-content: center;'>
             <div style='width:80px; height:90px;'>
@@ -427,6 +428,15 @@
       let shake_button = document.getElementById('shake_body');
       shake_button.addEventListener('click', function() {
         action(this);
+      });
+      let sleep = document.getElementById('sleep');
+      sleep.addEventListener('click', function() {
+        action(this);
+        if(!is_connect_robot & zzz.visible){
+          zzz.visible = false;
+        }else if(!is_connect_robot & !zzz.visible){
+          zzz.visible = true;
+        }
       });
       let home_button = document.getElementById('home');
       home_button.addEventListener('click', function() {
