@@ -99,12 +99,12 @@
         <div style='position:absolute;bottom:5px;'>
           <div style='display: flex; justify-content: center;'>
             <div style='width:80px; height:90px;'>
-              <div class="value2">70</div>
-              <input name="neck-input" type="range" class="vertical" min="60" max="90" step="1" value="70">
+              <div class="value2">90</div>
+              <input name="neck-input" type="range" class="vertical" min="80" max="110" step="1" value=90">
             </div>
             <div>
-              <div class="value">90</div>
-              <input name="body-input" type="range" min="0" max="180" step="1" value="90">
+              <div class="value">60</div>
+              <input name="body-input" style="transform: scale(-1, 1);" type="range" min="35" max="160" step="1" value="60">
             </div>
             <div style='margin:10px 20px 5px 20px;text-align:center;'>
               <div style='margin-bottom:5px;'>LED</div>
@@ -369,7 +369,7 @@
         var target = document.querySelector('.value');
         target.innerHTML = newValue;
         if(!is_connect_robot){
-          robot.rotation.y = (Number(newValue)-90)/180*Math.PI;
+          robot.rotation.y = 30/180*Math.PI - (90-Number(newValue))/180*Math.PI;
         }
         window.parent.postMessage({
          action: 'command',
@@ -386,7 +386,7 @@
         var target = document.querySelector('.value2');
         target.innerHTML = newValue;
         if(!is_connect_robot){
-          bones[1].rotation.z = -20/180*Math.PI - (Number(newValue)-90)/180*Math.PI;
+          bones[1].rotation.z = (Number(newValue)-90)/180*Math.PI;
         }
          window.parent.postMessage({
           action: 'command',
