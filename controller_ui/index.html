@@ -386,7 +386,7 @@
         var target = document.querySelector('.value2');
         target.innerHTML = newValue;
         if(!is_connect_robot){
-          bones[1].rotation.z = (Number(newValue)-90)/180*Math.PI;
+          bones[1].rotation.z = -(Number(newValue)-90)/180*Math.PI;
         }
          window.parent.postMessage({
           action: 'command',
