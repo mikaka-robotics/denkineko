@@ -459,11 +459,11 @@
             switch (key) {
               case 'body':
                 body = parseInt(value);
-                robot.rotation.y = (body-90)/180*Math.PI;
+                robot.rotation.y = 30/180*Math.PI - (90-body)/180*Math.PI; 
                 break;
               case 'neck':
                 neck = parseInt(value);
-                bones[1].rotation.z = -0/180*Math.PI - (neck-90)/180*Math.PI;
+                bones[1].rotation.z = -(neck-90)/180*Math.PI;
                 break;
               case 'led':
                 led = value;
